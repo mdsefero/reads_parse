@@ -13,7 +13,7 @@ def parse(name):
     out = list()
     with open(name) as handle:
         for i in handle: 
-            if i[0] == '>' : newline = i.strip() + ' kraken:taxid|' + taxid + '\n'
+            if i[0] == '>' : newline = i.strip() + '|kraken:taxid|' + taxid + '\n'
             else: newline = i
             out.append(newline)
     return out
