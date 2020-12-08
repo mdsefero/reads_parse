@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 ####################################################################
 #Re-designates fwd/rev reads from fastq names
-#Usage: change_fwd_rev.py -f [infilenames]
+#Usage: change_fwd_rev_reads.py -f [infilenames]
 #Mandatory argument -f --file, infiles
 #8 Dec 2020
 #Maxim Seferovic, seferovi@bcm.edu
