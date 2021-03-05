@@ -3,7 +3,7 @@
 #Reformats older illumina HiSeq fastqs to newer format
 #Usage: Reform_header.py -f [infilenames] OPTIONS
 #Mandatory argument -f --file, infiles
-#Optional argument -p --processes, simultaneous processes (default 4)
+#Optional argument -p --processes, (default autodetct)
 #Processing may be I/O limited on standard machines
 #4 March 2021
 #Maxim Seferovic, seferovi@bcm.edu
@@ -11,7 +11,6 @@
 
 import argparse, os.path
 import multiprocessing
-from joblib import Parallel, delayed
 from datetime import datetime
 
 def timestamp(action, object):
@@ -35,12 +34,11 @@ def load_mod (n_processors, file):
     timestamp('Processing:', file)
     return_dict = manager.dict()  
     new_line_chunks = []
-    Parallel(n_jobs=n_processors)(delayed(lprocess)(i, count, return_dict) for count, i in enumerate(line_chunks))
-        
-    #    p = multiprocessing.Process(target=lprocess, args=(i, count, return_dict))
-    #    new_line_chunks.append(p)
-    #    p.start()
-    #for i in new_line_chunks: i.join()
+    for count, i in enumerate(line_chunks):
+        p = multiprocessing.Process(target=lprocess, args=(i, count, return_dict))
+        new_line_chunks.append(p)
+        p.start()
+    for i in new_line_chunks: i.join()
         
     timestamp('Saving:', sname)
     with open (sname, 'w') as f:
