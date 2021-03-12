@@ -39,7 +39,7 @@ def savename (fname):
     return fname.rsplit('.', 1)[0] + '_fmt.' + fname.rsplit('.', 1)[-1]
 
 def mem_check(fname):
-  return False if os.path.getsize(fname)*3 > psutil.virtual_memory()[1] else True
+    return False if os.path.getsize(fname)*3 > psutil.virtual_memory()[1] else True
     
 def filecheck (fname):
     if os.path.isfile(savename(fname)): print ("Processed file exists, skipping\t", fname) 
@@ -94,10 +94,9 @@ def main (f,p,m):
     for i in f: file_list.append(filecheck(i))
     file_list = list(filter(lambda x: x != None, file_list))
     print (f"Processing {len(file_list)} unprocessed files... ")
-    for i, file in enumerate(file_list): 
-        mem = mem_check(file)
+    for i, file in enumerate(file_list):
         if m == True: single_proc(file)
-        elif mem == False: 
+        elif mem_check(file) == False: 
             print ('Not enough Memory single processing ' , file)
             single_proc(file) 
         else: load_file(p, file)
